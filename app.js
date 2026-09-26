@@ -1,12 +1,13 @@
-// app.js：渲染结果
+// app.js：渲染结果（每条字面量只解析一遍）
 import { parseLiteral } from "./radix.js";
-import { canonical } from "./canon.js";
+import { format } from "./canon.js";
 
 export function render(spec) {
   const items = spec.items || [];
-  const forms = items.map((item) => canonical(item));
-  const values = items.map((item) => parseLiteral(item).value);
-  const roundTrip = items.every((item, spot) => parseLiteral(forms[spot]).value === values[spot]);
+  const parsed = items.map((item) => parseLiteral(item));
+  const forms = parsed.map((entry) => format(entry));
+  const values = parsed.map((entry) => entry.value);
+  const roundTrip = forms.every((form, spot) => parseLiteral(form).value === values[spot]);
   return { forms: forms, values: values, count: items.length,
            biggest: values.length ? Math.max.apply(null, values) : 0, round_trip: roundTrip };
 }
