@@ -1,0 +1,5 @@
+{
+  "digit_error_code": "E_BAD_DIGIT",
+  "radix_error_code": "E_BAD_RADIX",
+  "items": ["0x1f", "0b1011", "1010", "0o17", "0X2A"]
+}
